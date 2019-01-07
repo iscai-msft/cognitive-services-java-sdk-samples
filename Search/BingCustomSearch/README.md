@@ -8,6 +8,7 @@ author: milismsft
 
 Sample [code](https://github.com/Azure-Samples/cognitive-services-java-sdk-samples/blob/master/Search/BingCustomSearch/src/main/java/com/microsoft/azure/cognitiveservices/search/customsearch/samples/BingCustomSearchSample.java) for custom searching using Bing Custom Search, an Azure Cognitive Service.
 - Custom search for "Xbox" and print out name and url for the first web page in the results list.
+- IMPORTANT: use S1 pricing level when generating API key to avoid rate limit exceeding exception.
 
 
 ## Features
