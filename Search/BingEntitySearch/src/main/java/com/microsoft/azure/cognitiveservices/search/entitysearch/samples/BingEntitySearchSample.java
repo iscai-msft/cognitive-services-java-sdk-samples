@@ -69,104 +69,131 @@ public class BingEntitySearchSample {
             //=============================================================
             // This will handle disambiguation results for an ambiguous query "harry potter".
 
-            entityData = client.bingEntities().search()
-                .withQuery("William Gates")
-                .withMarket("en-us")
-                .execute();
+            try {
+                entityData = client.bingEntities().search()
+                        .withQuery("William Gates")
+                        .withMarket("en-us")
+                        .execute();
 
-            if (entityData.entities().value().size() > 0) {
-                // find the entity that represents the dominant one
-                List<Thing> entrys = entityData.entities().value();
-                boolean hasDominateEntry = false;
-                for (Thing thing : entrys) {
-                    if (thing.entityPresentationInfo().entityScenario() == EntityScenario.DOMINANT_ENTITY) {
-                        System.out.println("Searched for \"William Gates\" and found a dominant entity with this description:");
-                        System.out.println(thing.description());
-                        hasDominateEntry = true;
-                        break;
-                    }
-                }
-                if (!hasDominateEntry) {
-                    System.out.println("Couldn't find main entity \"William Gates\"!");
-                } else {
-                    List<Thing> dominateEntries = new ArrayList<>();
+                if (entityData.entities().value().size() > 0) {
+                    // find the entity that represents the dominant one
+                    List<Thing> entrys = entityData.entities().value();
+                    boolean hasDominateEntry = false;
                     for (Thing thing : entrys) {
-                        if (thing.entityPresentationInfo().entityScenario() == EntityScenario.DISAMBIGUATION_ITEM) {
-                            dominateEntries.add(thing);
+                        if (thing.entityPresentationInfo().entityScenario() == EntityScenario.DOMINANT_ENTITY) {
+                            System.out.println("Searched for \"William Gates\" and found a dominant entity with this description:");
+                            System.out.println(thing.description());
+                            hasDominateEntry = true;
+                            break;
                         }
                     }
-                    if (dominateEntries.size() > 1) {
-                        System.out.println("This query is pretty ambiguous and can be referring to multiple things. Did you mean one of these:");
-                        for (Thing thing : dominateEntries) {
-                            System.out.format("\t%s (%s)\n", thing.name(), thing.entityPresentationInfo().entityTypeDisplayHint());
-                        }
+                    if (!hasDominateEntry) {
+                        System.out.println("Couldn't find main entity \"William Gates\"!");
                     } else {
-                        System.out.println("We didn't find any disambiguation items for William Gates, so we must be certain what you're talking about!");
+                        List<Thing> dominateEntries = new ArrayList<>();
+                        for (Thing thing : entrys) {
+                            if (thing.entityPresentationInfo().entityScenario() == EntityScenario.DISAMBIGUATION_ITEM) {
+                                dominateEntries.add(thing);
+                            }
+                        }
+                        if (dominateEntries.size() > 1) {
+                            System.out.println("This query is pretty ambiguous and can be referring to multiple things. Did you mean one of these:");
+                            for (Thing thing : dominateEntries) {
+                                System.out.format("\t%s (%s)\n", thing.name(), thing.entityPresentationInfo().entityTypeDisplayHint());
+                            }
+                        } else {
+                            System.out.println("We didn't find any disambiguation items for William Gates, so we must be certain what you're talking about!");
+                        }
                     }
+                } else {
+                    System.out.println("Didn't see any data..");
                 }
-            } else {
-                System.out.println("Didn't see any data..");
+            } catch(ErrorResponseException e) {
+                System.out.println(
+                        String.format("Exception occurred when searching for William Gates, status code %s with reason %s.", e.response().code(), e.response().message()));
+
+                if (e.response().code() == 429) {
+                    System.out.println("You are getting a request exceeded error because you are using the free tier for this sample. Please use S1 pricing tier or above.");
+                }
             }
 
             //=============================================================
             // This will look up a single store "Microsoft Store" and print out its phone number.
 
             System.out.println("Searching for \"Microsoft Store\"");
-            entityData = client.bingEntities().search()
-                .withQuery("Microsoft Store")
-                .withMarket("en-us")
-                .execute();
+            try {
+                entityData = client.bingEntities().search()
+                        .withQuery("Microsoft Store")
+                        .withMarket("en-us")
+                        .execute();
 
-            if (entityData.places() != null && entityData.places().value().size() > 0) {
-                // Some local entities will be places, others won't be. Depending on the data you want, try to cast to the appropriate schema
-                // In this case, the item being returned is technically a Store, but the Place schema has the data we want (telephone)
-                Place store = (Place)entityData.places().value().get(0);
+                if (entityData.places() != null && entityData.places().value().size() > 0) {
+                    // Some local entities will be places, others won't be. Depending on the data you want, try to cast to the appropriate schema
+                    // In this case, the item being returned is technically a Store, but the Place schema has the data we want (telephone)
+                    Place store = (Place) entityData.places().value().get(0);
 
-                if (store != null) {
-                    System.out.println("Searched for \"Microsoft Store\" and found a store with this phone number:");
-                    System.out.println(store.telephone());
+                    if (store != null) {
+                        System.out.println("Searched for \"Microsoft Store\" and found a store with this phone number:");
+                        System.out.println(store.telephone());
+                    } else {
+                        System.out.println("Couldn't find a place!");
+                    }
                 } else {
-                    System.out.println("Couldn't find a place!");
+                    System.out.println("Didn't see any data..");
                 }
-            } else {
-                System.out.println("Didn't see any data..");
+            } catch(ErrorResponseException e) {
+                System.out.println(
+                        String.format("Exception occurred when searching for Microsoft Store, status code %s with reason %s.", e.response().code(), e.response().message()));
+
+                if (e.response().code() == 429) {
+                    System.out.println("You are getting a request exceeded error because you are using the free tier for this sample. Please use S1 pricing tier or above.");
+                }
             }
 
 
             //=============================================================
             // This will look up a list of restaurants "seattle restaurants" and present their names and phone numbers.
-            SearchResponse restaurants = client.bingEntities().search("",
-                    new SearchOptionalParameter()
-                            .withMarket("en-us"));
+            try {
+                SearchResponse restaurants = client.bingEntities().search("",
+                        new SearchOptionalParameter()
+                                .withMarket("en-us"));
 
-            if (restaurants.places() != null && restaurants.places().value().size() > 0) {
-                List<Thing> listItems = new ArrayList<Thing>();
-                for(Thing place : restaurants.places().value()) {
-                    if (place.entityPresentationInfo().entityScenario() == EntityScenario.LIST_ITEM) {
-                        listItems.add(place);
+                if (restaurants.places() != null && restaurants.places().value().size() > 0) {
+                    List<Thing> listItems = new ArrayList<Thing>();
+                    for (Thing place : restaurants.places().value()) {
+                        if (place.entityPresentationInfo().entityScenario() == EntityScenario.LIST_ITEM) {
+                            listItems.add(place);
+                        }
                     }
-                }
 
-                if (listItems.size() > 0) {
-                    StringBuilder sb = new StringBuilder();
+                    if (listItems.size() > 0) {
+                        StringBuilder sb = new StringBuilder();
 
-                    for (Thing item : listItems) {
-                        Place place = (Place)item;
-                        if (place == null) {
-                            System.out.println(String.format("Unexpectedly found something that isn't a place named \"%s\"", item.toString()));
-                            continue;
+                        for (Thing item : listItems) {
+                            Place place = (Place) item;
+                            if (place == null) {
+                                System.out.println(String.format("Unexpectedly found something that isn't a place named \"%s\"", item.toString()));
+                                continue;
+                            }
+
+                            sb.append(String.format(",%s (%s) ", place.name(), place.telephone()));
                         }
 
-                        sb.append(String.format(",%s (%s) ", place.name(), place.telephone()));
+                        System.out.println("Ok, we found these places: ");
+                        System.out.println(sb.toString().substring(1));
+                    } else {
+                        System.out.println("Couldn't find any relevant results for \"seattle restaurants\"");
                     }
-
-                    System.out.println("Ok, we found these places: ");
-                    System.out.println(sb.toString().substring(1));
                 } else {
-                    System.out.println("Couldn't find any relevant results for \"seattle restaurants\"");
+                    System.out.println("Didn't see any data..");
                 }
-            } else {
-                System.out.println("Didn't see any data..");
+            } catch(ErrorResponseException e) {
+                System.out.println(
+                        String.format("Exception occurred when searching for seattle restaurants, status code %s with reason %s.", e.response().code(), e.response().message()));
+
+                if (e.response().code() == 429) {
+                    System.out.println("You are getting a request exceeded error because you are using the free tier for this sample. Please use S1 pricing tier or above.");
+                }
             }
 
 
