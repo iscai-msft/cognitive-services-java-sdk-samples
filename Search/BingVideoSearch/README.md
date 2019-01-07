@@ -7,10 +7,12 @@ author: milismsft
 # Bing Video Search SDK Sample ##
 
 Sample code for searching news using Bing Video Search, an Azure Cognitive Service.
+- IMPORTANT: use S1 pricing level when generating API key to avoid rate limit exceeding exception.
 - Search videos for "SwiftKey" and print out id, name and url.
 - Search videos for "Bellevue Trailer" that is free, short and 1080p resolution and print out id, name and url.
 - Search for trending videos then verify banner tiles and categories.
 - Search videos for "Bellevue Trailer" and then search for detail information of the first video.
+
 
 ## Features
 

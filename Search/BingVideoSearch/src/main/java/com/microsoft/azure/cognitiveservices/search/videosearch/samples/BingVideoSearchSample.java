@@ -8,6 +8,7 @@ package com.microsoft.azure.cognitiveservices.search.videosearch.samples;
 
 import com.microsoft.azure.cognitiveservices.search.videosearch.BingVideoSearchAPI;
 import com.microsoft.azure.cognitiveservices.search.videosearch.BingVideoSearchManager;
+import com.microsoft.azure.cognitiveservices.search.videosearch.models.ErrorResponseException;
 import com.microsoft.azure.cognitiveservices.search.videosearch.models.Freshness;
 import com.microsoft.azure.cognitiveservices.search.videosearch.models.TrendingVideos;
 import com.microsoft.azure.cognitiveservices.search.videosearch.models.TrendingVideosCategory;
@@ -20,6 +21,7 @@ import com.microsoft.azure.cognitiveservices.search.videosearch.models.VideoObje
 import com.microsoft.azure.cognitiveservices.search.videosearch.models.VideoPricing;
 import com.microsoft.azure.cognitiveservices.search.videosearch.models.VideoResolution;
 import com.microsoft.azure.cognitiveservices.search.videosearch.models.VideosModel;
+import org.apache.http.NoHttpResponseException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,42 +96,51 @@ public class BingVideoSearchSample {
 
                 System.out.println(
                         String.format("Search detail for video id={firstVideo.VideoId}, name=%s", firstVideo.name()));
-                VideoDetails videoDetail = client.bingVideos().details()
-                    .withQuery("Bellevue Trailer")
-                    .withId(firstVideo.videoId())
-                    .withModules(modules)
-                    .withMarket("en-us")
-                    .execute();
+                try {
+                    VideoDetails videoDetail = client.bingVideos().details()
+                            .withQuery("Bellevue Trailer")
+                            .withId(firstVideo.videoId())
+                            .withModules(modules)
+                            .withMarket("en-us")
+                            .execute();
+                    if (videoDetail != null) {
+                        if (videoDetail.videoResult() != null) {
+                            System.out.println(
+                                    String.format("Expected video id: %s", videoDetail.videoResult().videoId()));
+                            System.out.println(
+                                    String.format("Expected video name: %s", videoDetail.videoResult().name()));
+                            System.out.println(
+                                    String.format("Expected video url: %s", videoDetail.videoResult().contentUrl()));
+                        } else {
+                            System.out.println("Couldn't find expected video!");
+                        }
 
-                if (videoDetail != null) {
-                    if (videoDetail.videoResult() != null) {
-                        System.out.println(
-                                String.format("Expected video id: %s", videoDetail.videoResult().videoId()));
-                        System.out.println(
-                                String.format("Expected video name: %s", videoDetail.videoResult().name()));
-                        System.out.println(
-                                String.format("Expected video url: %s", videoDetail.videoResult().contentUrl()));
+                        if (videoDetail.relatedVideos() != null && videoDetail.relatedVideos().value() != null &&
+                                videoDetail.relatedVideos().value().size() > 0) {
+                            VideoObject firstRelatedVideo = videoDetail.relatedVideos().value().get(0);
+                            System.out.println(
+                                    String.format("Related video count: %d", videoDetail.relatedVideos().value().size() ));
+                            System.out.println(
+                                    String.format("First related video id: %s", firstRelatedVideo.videoId()));
+                            System.out.println(
+                                    String.format("First related video name: %s", firstRelatedVideo.name()));
+                            System.out.println(
+                                    String.format("First related video url: %s", firstRelatedVideo.contentUrl()));
+                        } else {
+                            System.out.println("Couldn't find any related video!");
+                        }
                     } else {
-                        System.out.println("Couldn't find expected video!");
+                        System.out.println("Couldn't find detail about the video!");
                     }
+                } catch(ErrorResponseException e) {
+                    System.out.println(
+                            String.format("Exception occurred, status code %s with reason %s.", e.response().code(), e.response().message()));
 
-                    if (videoDetail.relatedVideos() != null && videoDetail.relatedVideos().value() != null &&
-                            videoDetail.relatedVideos().value().size() > 0) {
-                        VideoObject firstRelatedVideo = videoDetail.relatedVideos().value().get(0);
-                        System.out.println(
-                                String.format("Related video count: %d", videoDetail.relatedVideos().value().size() ));
-                        System.out.println(
-                                String.format("First related video id: %s", firstRelatedVideo.videoId()));
-                        System.out.println(
-                                String.format("First related video name: %s", firstRelatedVideo.name()));
-                        System.out.println(
-                                String.format("First related video url: %s", firstRelatedVideo.contentUrl()));
-                    } else {
-                        System.out.println("Couldn't find any related video!");
+                    if (e.response().code() == 429) {
+                        System.out.println("You are getting a request exceeded error because you are using the free tier for this sample. Please use S1 pricing tier or above.");
                     }
-                } else {
-                    System.out.println("Couldn't find detail about the video!");
                 }
+
             } else {
                 System.out.println("Couldn't find video results!");
             }
