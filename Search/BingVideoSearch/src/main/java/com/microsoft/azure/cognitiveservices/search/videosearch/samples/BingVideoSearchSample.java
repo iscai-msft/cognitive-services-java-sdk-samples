@@ -137,7 +137,7 @@ public class BingVideoSearchSample {
                             String.format("Exception occurred, status code %s with reason %s.", e.response().code(), e.response().message()));
 
                     if (e.response().code() == 429) {
-                        System.out.println("You are getting a request exceeded error because you are using the free tier for this sample. Please use S1 pricing tier or above.");
+                        System.out.println("You are getting a request exceeded error because you are using the free tier for this sample. Please use S4, S7, or S8 pricing tier for this sample.");
                     }
                 }
 
