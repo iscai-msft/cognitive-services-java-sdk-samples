@@ -240,6 +240,9 @@ public class BingEntitySearchSample {
             //=============================================================
             // Authenticate
 
+            // Make sure to set AZURE_BING_SAMPLES_API_KEY environment variable based on your OS, then reopen your command prompt or iDE.
+            // If not, you might get an API key not found exception.
+            // Additionally, make sure to use S1 pricing tier or above when creating your Bing Entity Search API key for this sample, otherwise you will get a request exceeded exception.
             final String subscriptionKey = System.getenv("AZURE_BING_SAMPLES_API_KEY");
 
             BingEntitySearchAPI client = BingEntitySearchManager.authenticate(subscriptionKey);

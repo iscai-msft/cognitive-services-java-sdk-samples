@@ -22,7 +22,9 @@ This project framework provides examples for the **Bing Entity Search SDK** for 
 
 ### Prerequisites
 
-- A cognitive services API key with which to authenticate the SDK's calls. [Sign up here](https://azure.microsoft.com/en-us/services/cognitive-services/directory/) by navigating to the **Search** services and acquiring an API key. You can get a trial key for **free** which will expire after 30 days.
+- A cognitive services API key with which to authenticate the SDK's calls. [Sign up here](https://azure.microsoft.com/en-us/services/cognitive-services/directory/) by navigating to the **Search** services and acquiring an API key for Bing Entity Search. You can get a trial key for **free** which will expire after 30 days.
+- Make sure to set AZURE_BING_SAMPLES_API_KEY environment variable based on your OS, then reopen your command prompt or IDE. If not, you might get an API key not found exception.
+- Additionally, make sure that your API key is of pricing tier S1 or higher for this sample, otherwise you will get a request exceeded exception.
 - Maven
 
 ### Quickstart
