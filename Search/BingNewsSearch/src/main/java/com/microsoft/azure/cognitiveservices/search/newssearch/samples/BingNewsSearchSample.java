@@ -146,6 +146,8 @@ public class BingNewsSearchSample {
             //=============================================================
             // Authenticate
 
+            // Make sure to add AZURE_BING_SAMPLES_API_KEY environemnt variabled based on your OS, then reopen your command prompt or IDE.
+            // If not, you might get an API key not found exception.
             final String subscriptionKey = System.getenv("AZURE_BING_SAMPLES_API_KEY");
 
             BingNewsSearchAPI bingNewsSearchAPIClient = BingNewsSearchManager.authenticate(subscriptionKey);
