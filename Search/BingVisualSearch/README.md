@@ -6,11 +6,14 @@ author: milismsft
 
 # Bing Visual Search SDK Sample ##
 
-Sample code for searching news using Bing Visual Search, an Azure Cognitive Service.
-- Search videos for "SwiftKey" and print out id, name and url.
-- Search videos for "Bellevue Trailer" that is free, short and 1080p resolution and print out id, name and url.
-- Search for trending videos then verify banner tiles and categories.
-- Search videos for "Bellevue Trailer" and then search for detail information of the first video.
+Sample [code](https://github.com/Azure-Samples/cognitive-services-java-sdk-samples/blob/master/Search/BingVisualSearch/src/main/java/com/microsoft/azure/cognitiveservices/search/visualsearch/samples/BingVisualSearchSample.java) for searching images using Bing Visual Search, an Azure Cognitive Service.
+- Make sure to use S9 pricing tier of Bing Search V7 API to use Visual Search API.
+- Make sure to add system environment variable AZURE_BING_SAMPLES_API_KEY based on your OS, then reopen the command prompt or your IDE. If not, you may get an API key not found exception.
+- Search with a binary of dog image.
+- Search with a binary of dog image using crop area.
+- Search with an url of dog image.
+- Search with an image insights token using crop area.
+- Search with an url of dog image using crop area.
 
 ## Features
 
@@ -34,6 +37,7 @@ To get these samples running locally, simply get the pre-requisites above, then:
 
 ## More information ##
 
+[Bing Visual Search Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-visual-search/)
 [http://azure.com/java](http://azure.com/java)
 
 If you don't have a Microsoft Azure subscription you can get a FREE trial account [here](http://go.microsoft.com/fwlink/?LinkId=330212)
