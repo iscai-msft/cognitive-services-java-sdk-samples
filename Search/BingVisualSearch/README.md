@@ -7,8 +7,6 @@ author: milismsft
 # Bing Visual Search SDK Sample ##
 
 Sample [code](https://github.com/Azure-Samples/cognitive-services-java-sdk-samples/blob/master/Search/BingVisualSearch/src/main/java/com/microsoft/azure/cognitiveservices/search/visualsearch/samples/BingVisualSearchSample.java) for searching images using Bing Visual Search, an Azure Cognitive Service.
-- Make sure to use S9 pricing tier of Bing Search V7 API to use Visual Search API.
-- Make sure to add system environment variable AZURE_BING_SAMPLES_API_KEY based on your OS, then reopen the command prompt or your IDE. If not, you may get an API key not found exception.
 - Search with a binary of dog image.
 - Search with a binary of dog image using crop area.
 - Search with an url of dog image.
@@ -24,6 +22,8 @@ This project framework provides examples for the **Bing Visual Search SDK** for 
 ### Prerequisites
 
 - A cognitive services API key with which to authenticate the SDK's calls. [Sign up here](https://azure.microsoft.com/en-us/services/cognitive-services/directory/) by navigating to the **Search** services and acquiring an API key. You can get a trial key for **free** which will expire after 30 days.
+- Make sure to add system environment variable AZURE_BING_SAMPLES_API_KEY based on your OS, then reopen the command prompt or your IDE. If not, you may get an API key not found exception.
+- Make sure to use S9 pricing tier of Bing Search V7 API to use Visual Search API.
 - Maven
 
 ### Quickstart
