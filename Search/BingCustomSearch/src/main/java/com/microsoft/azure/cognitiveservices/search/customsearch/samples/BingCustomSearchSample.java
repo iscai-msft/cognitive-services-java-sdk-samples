@@ -69,7 +69,9 @@ public class BingCustomSearchSample {
         try {
             //=============================================================
             // Authenticate
-
+            // Make sure to add an AZURE_BING_SAMPLES_API_KEY environment variable based on your OS, then reopen your command prompt or IDE.
+            // If not, you might get an API key not found exception.
+            // If you do not have a customConfigId, you can also use 1 as your value when setting your environment variable.
             final String subscriptionKey = System.getenv("AZURE_BING_SAMPLES_API_KEY");
             final String customConfigId = System.getenv("AZURE_BING_SAMPLES_CUSTOM_CONFIG_ID");
 

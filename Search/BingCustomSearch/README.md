@@ -7,6 +7,7 @@ author: milismsft
 # Bing Custom Search SDK Sample ##
 
 Sample code for custom searching using Bing Custom Search, an Azure Cognitive Service.
+- Make sure to add an AZURE_BING_SAMPLES_API_KEY environment variable based on your OS, then reopen your command prompt or IDE. If not, you might get an API key not found exception.
 - Custom search for "Xbox" and print out name and url for the first web page in the results list.
 
 
