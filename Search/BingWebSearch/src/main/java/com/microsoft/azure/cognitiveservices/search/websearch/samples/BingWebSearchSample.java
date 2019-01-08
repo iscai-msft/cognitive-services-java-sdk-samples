@@ -121,7 +121,8 @@ public class BingWebSearchSample {
         try {
             //=============================================================
             // Authenticate
-
+            // Make sure to add system environment variable AZURE_BING_SAMPLES_API_KEY based on your OS, then reopen the command prompt or your IDE.
+            // If not, you may get an API key not found exception
             final String subscriptionKey = System.getenv("AZURE_BING_SAMPLES_API_KEY");
 
             BingWebSearchAPI client = BingWebSearchManager.authenticate(subscriptionKey);

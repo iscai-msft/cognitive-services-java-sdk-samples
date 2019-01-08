@@ -6,7 +6,8 @@ author: milismsft
 
 # Bing Web Search SDK Sample ##
 
-Sample code for searching web using Bing Web Search, an Azure Cognitive Service.
+Sample [code](https://github.com/Azure-Samples/cognitive-services-java-sdk-samples/blob/master/Search/BingWebSearch/src/main/java/com/microsoft/azure/cognitiveservices/search/websearch/samples/BingWebSearchSample.java) for searching web using Bing Web Search, an Azure Cognitive Service.
+- Make sure to add system environment variable AZURE_BING_SAMPLES_API_KEY based on your OS, then reopen the command prompt or your IDE. If not, you may get an API key not found exception.
 - Search the web for "Xbox" with market settings and print out the name and url for first web, image, news and videos results.
 
 
