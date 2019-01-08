@@ -241,6 +241,9 @@ public class BingVideoSearchSample {
             //=============================================================
             // Authenticate
 
+            // Make sure to add the AZURE_BING_SAMPLES_API_KEY environment variable based on your OS, then reopen your command prompt or IDE.
+            // If not, you might get an API key not found exception.
+            // Additionally, make sure you are not using the free tier for this sample. Please use S4, S7, or S8 pricing tier for this sample.
             final String subscriptionKey = System.getenv("AZURE_BING_SAMPLES_API_KEY");
 
             BingVideoSearchAPI client = BingVideoSearchManager.authenticate(subscriptionKey);
